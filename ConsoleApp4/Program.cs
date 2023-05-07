@@ -10,22 +10,16 @@ namespace ConsoleApp4
         {
             string bits = ReadBits();
 
-            int valueBSS = CalculateBSSValue(bits);
-            int valueBCS = CalculateBCSValue(bits);
-            int valueCA1 = CalculateCA1Value(bits);
-            int valueCA2 = CalculateCA2Value(bits);
-            int valueEX2 = CalculateEX2Value(bits);
-            int valueEXCustom = CalculateEXCustomValue(bits);
-
-            int width = Console.LargestWindowWidth;
+            CalcularBinariosEnteros bits2 = new(bits);
 
             Console.WriteLine("\r\nEl valor de {0} en distintas interprestaciones es:\r\n", bits);
-            WriteWithDots("Como BSS:", valueBSS.ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como BCS:", valueBCS.ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como CA1:", valueCA1.ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como CA2:", valueCA2.ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como EX2:", valueEX2.ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como EX2-1:", valueEXCustom.ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
+
+            WriteWithDots("Como BSS:", bits2.CalcularBSS().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
+            WriteWithDots("Como BCS:", bits2.CalcularBCS().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
+            WriteWithDots("Como CA1:", bits2.CalcularCA1().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
+            WriteWithDots("Como CA2:", bits2.CalcularCA2().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
+            WriteWithDots("Como EX2:", bits2.CalcularEX2().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
+            WriteWithDots("Como EX2-1:", bits2.CalcularEX2Menos1().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
             Console.ResetColor();
 
             Console.WriteLine("\r\n\r\nPresione ENTER para repetir con otro número, o ESC para salir");
@@ -89,74 +83,6 @@ namespace ConsoleApp4
             }
 
             return bits;
-        }
-
-        static private int CalculateBSSValue(string bits)
-        {
-            int result = 0;
-            int exp = 0;
-            
-            for (int i = bits.Length - 1; i >= 0; i--)
-            {
-                result += Convert.ToInt32(char.GetNumericValue(bits[i]) * Math.Pow(2, exp));
-                exp++;
-            }
-
-            return result;
-        }
-
-        static private int CalculateBCSValue(string bits)
-        {
-            int result = CalculateBSSValue(bits.Remove(0, 1));
-
-            if (bits[0] == '1')
-            {
-                result *= -1;
-            }
-
-            return result;
-        }
-
-        static private string ReverseBits(string bits)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 1; i < bits.Length; i++)
-            {
-                sb.Append(bits[i] == '0' ? '1' : '0');
-            }
-
-            return sb.ToString();
-        }
-
-        static private int CalculateCA1Value(string bits)
-        {
-            if (bits[0] == '0')
-                return CalculateBSSValue(bits);
-
-            string newbits = ReverseBits(bits);
-            
-            return -1 * CalculateBSSValue(newbits);
-        }
-
-        static private int CalculateCA2Value(string bits)
-        {
-            if (bits[0] == '0')
-                return CalculateBSSValue(bits);
-
-            string newbits = ReverseBits(bits);
-
-            return CalculateCA1Value(bits) - 1;
-        }
-
-        static private int CalculateEX2Value(string bits)
-        {
-            return CalculateBSSValue(bits) - Convert.ToInt32(Math.Pow(2, bits.Length - 1));
-        }
-
-        static private int CalculateEXCustomValue(string bits)
-        {
-            return CalculateEX2Value(bits) + 1;
         }
     }
 }
