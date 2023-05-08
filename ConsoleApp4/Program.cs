@@ -8,6 +8,8 @@ namespace BinCalc
     {
         static public void Main(string[] args)
         {
+            Menues m = new();
+            
             #pragma warning disable CA1416 // Validate platform compatibility
             Console.WindowWidth = 100;
             Console.WindowHeight = 25;
