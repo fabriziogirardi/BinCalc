@@ -8,18 +8,23 @@ namespace ConsoleApp4
     {
         static public void Main(string[] args)
         {
+            #pragma warning disable CA1416 // Validate platform compatibility
+            Console.WindowWidth = 100;
+            Console.WindowHeight = 25;
+            #pragma warning restore CA1416 // Validate platform compatibility
+
             string bits = ReadBits();
 
             CalcularBinariosEnteros bits2 = new(bits);
 
             Console.WriteLine("\r\nEl valor de {0} en distintas interprestaciones es:\r\n", bits);
 
-            WriteWithDots("Como BSS:", bits2.CalcularBSS().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como BCS:", bits2.CalcularBCS().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como CA1:", bits2.CalcularCA1().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como CA2:", bits2.CalcularCA2().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como EX2:", bits2.CalcularEX2().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
-            WriteWithDots("Como EX2-1:", bits2.CalcularEX2Menos1().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 4);
+            WriteWithDots("Como BSS:", bits2.CalcularBSS().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 2);
+            WriteWithDots("Como BCS:", bits2.CalcularBCS().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 2);
+            WriteWithDots("Como CA1:", bits2.CalcularCA1().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 2);
+            WriteWithDots("Como CA2:", bits2.CalcularCA2().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 2);
+            WriteWithDots("Como EX2:", bits2.CalcularEX2().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 2);
+            WriteWithDots("Como EX2-1:", bits2.CalcularEX2Menos1().ToString(), ConsoleColor.Green, ConsoleColor.Green, ConsoleColor.White, 2);
             Console.ResetColor();
 
             Console.WriteLine("\r\n\r\nPresione ENTER para repetir con otro número, o ESC para salir");
@@ -46,20 +51,20 @@ namespace ConsoleApp4
                                          ConsoleColor dotColor = ConsoleColor.White,
                                          int divider = 2)
         {
-            int width = Console.LargestWindowWidth;
+            int width = Console.WindowWidth;
 
             Console.ForegroundColor = leftColor;
-            Console.Write(left + " ");
+            Console.Write("  - " + left + " ");
 
             int used = left.Length + right.Length;
 
             Console.ForegroundColor = dotColor;
 
-            for (int i = 0; i < ((width / divider) - used - 2); i++)
+            for (int i = 0; i < ((width) - used - 10); i++)
                 Console.Write(".");
 
             Console.ForegroundColor = rightColor;
-            Console.Write(" " + right + "\r\n");
+            Console.Write(" " + right + "    \r\n");
         }
 
         static private string ReadBits()

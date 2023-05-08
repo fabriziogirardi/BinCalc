@@ -105,5 +105,10 @@ namespace ConsoleApp4
         {
             return CalcularEX2() + 1;
         }
+
+        public void MostrarResultados()
+        {
+
+        }
     }
 }
