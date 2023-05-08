@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp4
+namespace BinCalc
 {
     /// <summary>
     /// Clase que genera los cálculos necesarios para saber cual es la correcta <br />

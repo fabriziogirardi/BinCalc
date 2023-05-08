@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ConsoleApp4
+namespace BinCalc
 {
     internal class Program
     {
@@ -69,11 +69,11 @@ namespace ConsoleApp4
 
         static private string ReadBits()
         {
-            Console.WriteLine("\r\nIngrese una cadena de 1 y 0 para calcular su valor en los diferentes sistemas.\r\nEl binario será tratado como un entero.\r\n\r\nBinario:");
+            Console.WriteLine("\r\nIngrese una cadena de 1 y 0 para calcular su valor en los diferentes sistemas.\r\nEl binario será tratado como un entero.\r\n\r\nBinario (min 2 bits, max 32 bits):");
 
             string? bits = Console.ReadLine();
 
-            string pattern = @"^[01]+$";
+            string pattern = @"^[01]{2,32}$";
             Regex reg = new Regex(pattern, RegexOptions.Compiled);
             Match match = reg.Match(bits != null ? bits : "");
 
