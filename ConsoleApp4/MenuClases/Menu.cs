@@ -8,11 +8,11 @@ namespace BinCalc.MenuClases
 {
     public class Menu
     {
-        private readonly string Separador = new string('-', 80);
+        private readonly string Separador = new string('#', 100);
         private string Encabezado;
         private List<MenuItem> Opciones;
-        private Menu Root;
-        public Menu(string header, List<MenuItem> opciones, Menu? root)
+        private Menu? Root;
+        public Menu(string header, List<MenuItem> opciones, Menu? root = null)
         {
             Encabezado = header;
             Opciones = opciones;
@@ -21,11 +21,21 @@ namespace BinCalc.MenuClases
         private void Print()
         {
             for (int index = 0; index < Opciones.Count; index++)
-                Console.WriteLine($" |    \u001b[92m{index + 1}\u001b[0m.- {Opciones[index].Titulo}");
+            {
+                Console.Write($" #    ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"{index + 1}");
+                Console.ResetColor();
+                Console.WriteLine($".- {Opciones[index].Titulo}");
+                Console.ResetColor();
+            }
 
-            Console.WriteLine(" |");
-            Console.WriteLine($" |  Presione \u001b[92m{Opciones.Count + 1}\u001b[0m para " +
-                              $"{(Root == null ? "salir" : "volver atrás")}");
+            Console.WriteLine(" #");
+            Console.Write($" #  Presione la opción deseada, o ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{Opciones.Count + 1}");
+            Console.ResetColor();
+            Console.WriteLine($" para {(Root == null ? "salir" : "volver atrás")}");
         }
 
         private void FullPrint()
@@ -34,9 +44,11 @@ namespace BinCalc.MenuClases
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine(Separador);
-            Console.WriteLine(" |  " + Encabezado);
-            Console.WriteLine(" |");
+            Console.WriteLine(" #");
+            Console.WriteLine(" #  " + Encabezado);
+            Console.WriteLine(" #");
             Print();
+            Console.WriteLine(" #");
             Console.WriteLine(Separador);
         }
 
@@ -44,7 +56,7 @@ namespace BinCalc.MenuClases
         {
             Console.CursorVisible = false;
             Console.Clear();
-            Console.WriteLine($"\u001b[31m{error}\u001b[0m");
+            Console.WriteLine($"{error}");
             Console.WriteLine();
             Console.WriteLine(Separador);
             Console.WriteLine("  " + Encabezado);
@@ -59,9 +71,9 @@ namespace BinCalc.MenuClases
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine(Separador);
-            Console.WriteLine();
-            Console.WriteLine($"  \u001b[94mGracias por usar la aplicacion! Presione cualquier tecla para finalizar\u001b[0m");
-            Console.WriteLine();
+            Console.WriteLine(" |");
+            Console.WriteLine($" |  Gracias por usar la aplicacion! Presione cualquier tecla para finalizar");
+            Console.WriteLine(" |");
             Console.WriteLine(Separador);
         }
         public void Run()

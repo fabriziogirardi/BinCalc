@@ -10,22 +10,28 @@ namespace BinCalc.Formateos
     {
         static public void RenglonesPunteados(string left,
                                              string right,
-                                             string leftColor = "\u001b[92m",
-                                             string rightColor = "\u001b[92m",
-                                             string dotColor = "\u001b[0m")
+                                             ConsoleColor leftColor = ConsoleColor.Green,
+                                             ConsoleColor rightColor = ConsoleColor.Green,
+                                             ConsoleColor dotColor = ConsoleColor.White)
         {
             int width = Console.WindowWidth;
-            string resetColor = "\u001b[0m";
 
-            Console.Write($"{leftColor}  - {left} {resetColor}");
+
+            Console.ForegroundColor = leftColor;
+            Console.Write($"- {left}");
+            Console.ResetColor();
 
             int used = left.Length + right.Length;
             int free = width - used - 10;
 
+            Console.ForegroundColor = dotColor;
             for (int i = 0; i < free; i++)
-                Console.Write($"{dotColor}.");
+                Console.Write($".");
+            Console.ResetColor();
 
-            Console.Write($"{rightColor} {right}    {resetColor}\r\n");
+            Console.ForegroundColor = rightColor;
+            Console.Write($" {right}    \r\n");
+            Console.ResetColor();
         }
     }
 }
