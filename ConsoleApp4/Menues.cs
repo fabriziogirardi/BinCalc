@@ -10,31 +10,36 @@ namespace BinCalc
     internal class Menues
     {
         private int seleccionActual;
-        private string[] opcionesMenu = new string[2];
+        private Dictionary<int, Dictionary<string, string>> menuPrincipal = new Dictionary<int, Dictionary<string, string>>();
+        private string[] submenuDecimalesABinario = new string[2];
+
 
         public Menues()
         {
             configurarItems();
-            mostrarItems(opcionesMenu);
+            mostrarItems(menuPrincipal);
             leerOpcionSeleccionada();
         }
 
         private void configurarItems()
         {
-            opcionesMenu[0] = "Convertir enteros de binario a decimal";
-            opcionesMenu[1] = "Convertir enteros de decimal a binario";
+            menuPrincipal[0].Add("Hola", "lala");
+            //menuPrincipal[1] = "Convertir enteros de decimal a binario";
+            submenuDecimalesABinario[0] = "Restringido a X cantidad de bits";
+            submenuDecimalesABinario[1] = "Sin restricciones de bits (usar los que sean necesarios)";
         }
 
-        private void mostrarItems(string[] menu, bool alert = false)
+        private void mostrarItems(Dictionary<int, Dictionary<string, string>> menu, bool alert = false)
         {
             int itemIndex = 0;
 
             Console.Write("\r\nSeleccione una de las opciones a continuación:\r\n\r\n");
 
-            foreach (string item in menu)
+            foreach (KeyValuePair<int, Dictionary<string, string>> item in menu)
             {
-                Console.WriteLine(itemIndex + ". " + item);
-                itemIndex++;
+                foreach (KeyValuePair<string, string> keyValuePair in menu[item.Key]) { 
+                    Console.WriteLine(keyValuePair.Value);
+                }
             }
         }
 

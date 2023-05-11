@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BinCalc.Formateos;
 
-namespace BinCalc
+namespace BinCalc.Calculadoras
 {
     /// <summary>
     /// Clase que genera los cálculos necesarios para saber cual es la correcta <br />
@@ -16,7 +17,16 @@ namespace BinCalc
         /// <summary>
         /// Variable que contiene la cadena de bits como string.
         /// </summary>
-        private string bits;
+        private string? bits;
+
+        /// <summary>
+        /// Clase que genera los cálculos necesarios para saber cual es la correcta <br />
+        /// interpretación de un binario como un entero en los distintos tipos <br />
+        /// de interpretación <b>BSS</b>, <b>BCS</b>, <b>CA1</b>, <b>CA2</b>, <b>EX2</b>, <b>EX2-1</b>
+        /// </summary>
+        public CalcularBinariosEnteros()
+        {
+        }
 
         /// <summary>
         /// Clase que genera los cálculos necesarios para saber cual es la correcta <br />
@@ -24,8 +34,19 @@ namespace BinCalc
         /// de interpretación <b>BSS</b>, <b>BCS</b>, <b>CA1</b>, <b>CA2</b>, <b>EX2</b>, <b>EX2-1</b>
         /// </summary>
         /// <param name="bits">Cadena de bits que se usará para los cálculos</param>
-        public CalcularBinariosEnteros(string bits) {
+        public CalcularBinariosEnteros(string bits)
+        {
             this.bits = bits;
+        }
+
+        public void setBinario(string? bits)
+        {
+            this.bits = bits;
+        }
+
+        public string? getBinario()
+        {
+            return bits;
         }
 
         /// <summary>
@@ -54,7 +75,7 @@ namespace BinCalc
 
         public int CalcularBCS()
         {
-            int result = CalcularBSS(bits.Remove(0,1));
+            int result = CalcularBSS(bits.Remove(0, 1));
 
             if (bits[0] == '1')
             {
@@ -108,7 +129,12 @@ namespace BinCalc
 
         public void MostrarResultados()
         {
-
+            FormatearTexto.RenglonesPunteados("BSS", CalcularBSS().ToString());
+            FormatearTexto.RenglonesPunteados("BCS", CalcularBCS().ToString());
+            FormatearTexto.RenglonesPunteados("CA1", CalcularCA1().ToString());
+            FormatearTexto.RenglonesPunteados("CA2", CalcularCA2().ToString());
+            FormatearTexto.RenglonesPunteados("EX2", CalcularEX2().ToString());
+            FormatearTexto.RenglonesPunteados("EX2-1", CalcularEX2Menos1().ToString());
         }
     }
 }

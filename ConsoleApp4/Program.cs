@@ -1,4 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿using BinCalc.Calculadoras;
+using BinCalc.Calculos;
+using BinCalc.MenuClases;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -8,7 +11,34 @@ namespace BinCalc
     {
         static public void Main(string[] args)
         {
-            Menues m = new();
+            // Menues m = new Menues();
+
+            #pragma warning disable CA1416 // Validate platform compatibility
+            Console.WindowWidth = 100;
+            Console.WindowHeight = 25;
+            #pragma warning restore CA1416 // Validate platform compatibility
+
+            // Lista de los menues a mostrar
+            List<MenuItem> menuPrincipal = new List<MenuItem>();
+            List<MenuItem> menuEnteros = new List<MenuItem>();
+            List<MenuItem> menuFraccionariosFijos = new List<MenuItem>();
+            List<MenuItem> menuFraccionariosFlotantes = new List<MenuItem>();
+
+            Menu root = new Menu("Menú principal", menuPrincipal, null);
+            Menu menuEnt = new Menu("Menú de enteros", menuEnteros, root);
+            Menu menuFracFij = new Menu("Menú de fraccionarios fijos", menuFraccionariosFijos, root);
+            Menu menuFracFlot = new Menu("Menú de fraccionarios flotantes", menuFraccionariosFlotantes, root);
+
+            Enteros enteros = new Enteros(menuEnt);
+
+            menuPrincipal.Add(new MenuItem("Convertir enteros a binario y viceversa", menuEnt.Run));
+            menuPrincipal.Add(new MenuItem("Convertir fraccionarios fijos a binario y viceversa (proximamente)", menuFracFij.Run));
+            menuPrincipal.Add(new MenuItem("Convertir fraccionarios flotantes a binario y viceversa (proximamente)", menuFracFlot.Run));
+
+            menuEnteros.Add(new MenuItem("Convertir enteros a binario (proximamente)", enteros.EnteroBinario));
+            menuEnteros.Add(new MenuItem("Convertir binarios a entero", enteros.BinarioEntero));
+
+            new MenuRun(root).Run();
             
             #pragma warning disable CA1416 // Validate platform compatibility
             Console.WindowWidth = 100;
@@ -17,7 +47,8 @@ namespace BinCalc
 
             string bits = ReadBits();
 
-            CalcularBinariosEnteros bits2 = new(bits);
+            CalcularBinariosEnteros bits2 = new CalcularBinariosEnteros();
+            bits2.setBinario(bits);
 
             Console.WriteLine("\r\nEl valor de {0} en distintas interprestaciones es:\r\n", bits);
 
