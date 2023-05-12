@@ -39,12 +39,12 @@ namespace BinCalc.Calculadoras
             this.bits = bits;
         }
 
-        public void setBinario(string? bits)
+        public void SetBinario(string? bits)
         {
             this.bits = bits;
         }
 
-        public string? getBinario()
+        public string? GetBinario()
         {
             return bits;
         }

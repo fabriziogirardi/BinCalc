@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -22,15 +23,39 @@ namespace BinCalc.Calculos
             Console.Clear();
         }
 
-        public string LeerEntero()
+        public int LeerEntero(CalcularEnterosBinarios calc)
         {
+            Console.CursorVisible = true;
             Console.Clear();
-            Console.WriteLine("Ingrese el número entero: ");
-            string? numero = Console.ReadLine();
+            Console.WriteLine("ATENCION! Por limitaciones de la calculadora, el número entero debe estar entre -2147483648 y 2147483647 (inclusive).");
+            Console.WriteLine("Ingrese el número entero (presione enter sin ingresar nada para volver atras): ");
 
-            if (numero == null || numero == "")
+            if (ultimaLectura != null && errorLectura)
+            {
+                Console.WriteLine($"{ultimaLectura} no es un número entero válido, intente nuevamente");
+            }
+
+            Console.WriteLine();
+
+            int? ultimoEntero = calc.GetEntero();
+
+            if (ultimoEntero != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Último entero procesado correctamente: {ultimoEntero}");
+                calc.MostrarResultados();
+            }
+
+            string? numeroString = Console.ReadLine();
+
+            if (numeroString == null || numeroString == "")
             {
                 menuAnterior.Run();
+            }
+
+            if (!int.TryParse(numeroString, out int numero))
+            {
+
             }
 
             return numero;
@@ -44,15 +69,17 @@ namespace BinCalc.Calculos
 
             if (ultimaLectura != null && errorLectura)
             {
-                Console.WriteLine($"La cadena {ultimaLectura} no es una cadena válida, intente nuevamente");
+                Console.WriteLine($"La cadena {ultimaLectura} no es una cadena binaria válida, intente nuevamente");
             }
 
             Console.WriteLine();
 
-            if (calc.getBinario() != null)
+            string? ultimoBinario = calc.GetBinario();
+
+            if (ultimoBinario != null)
             {
                 Console.WriteLine();
-                Console.WriteLine($"Último binario procesado correctamente: {calc.getBinario()} ({calc.getBinario().Length} bits)");
+                Console.WriteLine($"Último binario procesado correctamente: {ultimoBinario} ({ultimoBinario.Length} bits)");
                 calc.MostrarResultados();
             }
 
@@ -92,7 +119,12 @@ namespace BinCalc.Calculos
 
         public void EnteroBinario()
         {
-            string entero = LeerEntero();
+            CalcularEnterosBinarios calc = new CalcularEnterosBinarios();
+            while (true)
+            {
+                int entero = LeerEntero(calc);
+                calc.SetEntero(entero);
+            }
         }
 
         public void BinarioEntero()
@@ -101,7 +133,7 @@ namespace BinCalc.Calculos
             while (true)
             {
                 string binario = LeerBinario(calc);
-                calc.setBinario(binario);
+                calc.SetBinario(binario);
             }
         }
     }

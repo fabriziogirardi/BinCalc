@@ -30,7 +30,7 @@ namespace BinCalc
             menuPrincipal.Add(new MenuItem("Convertir fraccionarios fijos a binario y viceversa (proximamente)", menuFracFij.Run));
             menuPrincipal.Add(new MenuItem("Convertir fraccionarios flotantes a binario y viceversa (proximamente)", menuFracFlot.Run));
 
-            menuEnteros.Add(new MenuItem("Convertir enteros a binario (proximamente)", enteros.EnteroBinario));
+            menuEnteros.Add(new MenuItem("Convertir enteros a binario", enteros.EnteroBinario));
             menuEnteros.Add(new MenuItem("Convertir binarios a entero", enteros.BinarioEntero));
 
             new MenuRun(root).Run();
@@ -43,7 +43,7 @@ namespace BinCalc
             string bits = ReadBits();
 
             CalcularBinariosEnteros bits2 = new CalcularBinariosEnteros();
-            bits2.setBinario(bits);
+            bits2.SetBinario(bits);
 
             Console.WriteLine("\r\nEl valor de {0} en distintas interprestaciones es:\r\n", bits);
 
