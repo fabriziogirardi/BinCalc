@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -14,7 +15,7 @@ namespace BinCalc.Calculos
     {
         public Menu menuAnterior { get; private set; }
 
-        private bool errorLectura = false;
+        private bool errorLectura = false, breakLoop = false;
 
         private string? ultimaLectura;
         public Enteros(Menu root)
@@ -25,7 +26,6 @@ namespace BinCalc.Calculos
 
         public int LeerEntero(CalcularEnterosBinarios calc)
         {
-            Console.CursorVisible = true;
             Console.Clear();
             Console.WriteLine("ATENCION! Por limitaciones de la calculadora, el número entero debe estar entre -2147483648 y 2147483647 (inclusive).");
             Console.WriteLine("Ingrese el número entero (presione enter sin ingresar nada para volver atras): ");
@@ -46,24 +46,37 @@ namespace BinCalc.Calculos
                 calc.MostrarResultados();
             }
 
+            if (ultimaLectura != null && errorLectura)
+                Console.SetCursorPosition(0, 3);
+            else
+                Console.SetCursorPosition(0, 2);
+
             string? numeroString = Console.ReadLine();
 
             if (numeroString == null || numeroString == "")
             {
-                menuAnterior.Run();
+                breakLoop = true;
+                return 0;
             }
 
             if (!int.TryParse(numeroString, out int numero))
             {
-
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("\r\nSolo se pueden ingresar números positivos o negativos.");
+                Console.ResetColor();
+                errorLectura = true;
+                ultimaLectura = numeroString;
+                numeroString = LeerEntero(calc).ToString();
             }
 
+            errorLectura = false;
+            ultimaLectura = null;
             return numero;
         }
 
         public string LeerBinario(CalcularBinariosEnteros calc)
         {
-            Console.CursorVisible = true;
             Console.Clear();
             Console.WriteLine("Ingrese el número binario (presione enter sin ingresar nada para volver atras): ");
 
@@ -95,8 +108,8 @@ namespace BinCalc.Calculos
 
             if (bits == null || bits == "")
             {
-                Console.CursorVisible = false;
-                menuAnterior.Run();
+                breakLoop = true;
+                return "";
             }
 
             while (!match.Success)
@@ -120,21 +133,37 @@ namespace BinCalc.Calculos
         public void EnteroBinario()
         {
             CalcularEnterosBinarios calc = new CalcularEnterosBinarios();
-            while (true)
+            errorLectura = false;
+            ultimaLectura = null;
+            breakLoop = false;
+
+            while (!breakLoop)
             {
                 int entero = LeerEntero(calc);
-                calc.SetEntero(entero);
+                if (!breakLoop)
+                    calc.SetEntero(entero);
             }
+
+            menuAnterior.Run();
         }
 
         public void BinarioEntero()
         {
             CalcularBinariosEnteros calc = new CalcularBinariosEnteros();
-            while (true)
+            errorLectura = false;
+            ultimaLectura = null;
+            breakLoop = false;
+            Console.CursorVisible = true;
+
+            while (!breakLoop)
             {
                 string binario = LeerBinario(calc);
-                calc.SetBinario(binario);
+                if (!breakLoop)
+                    calc.SetBinario(binario);
             }
+
+            Console.CursorVisible = false;
+            menuAnterior.Run();
         }
     }
 }

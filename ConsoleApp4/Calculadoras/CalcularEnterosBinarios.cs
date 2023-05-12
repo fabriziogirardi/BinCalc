@@ -12,7 +12,7 @@ namespace BinCalc.Calculadoras
     {
         private int? entero;
 
-        private string? BSS, BCS, CA1, CA2, EX2, EX2Menos1;
+        private string? ABS, INV, BSS, BCS, CA1, CA2, EX2, EX2Menos1;
 
         private bool negativo = false;
 
@@ -28,8 +28,7 @@ namespace BinCalc.Calculadoras
         public void SetEntero(int entero)
         {
             this.entero = entero;
-            if (entero < 0)
-                negativo = true;
+            negativo = entero < 0;
         }
 
         public int? GetEntero()
@@ -42,39 +41,39 @@ namespace BinCalc.Calculadoras
             BSS = "";
 
             if (negativo)
-                BSS = "No se pueden representar negativos";
-
-            else if (entero == 0)
-                BSS = "0";
-            
-            else
             {
-                while (entero > 0)
-                {
-                    BSS = entero % 2 + BSS;
-                    entero /= 2;
-                }
+                BSS = "No se pueden representar negativos";
+                return BSS;
             }
 
-            return BSS;
+            else if (entero == 0)
+                BSS = "0 (0 bits)";
+
+            else
+            {
+                BSS = ABS;
+            }
+
+            return BSS + $" ({BSS.Length} bits)";
         }
 
         public string CalcularEnteroBCS()
         {
             BCS = "";
+            //int? enteroTmp = entero;
 
-            if (negativo)
-                entero *= -1;
+            //if (negativo)
+            //    enteroTmp *= -1;
 
-            while (entero != 0)
-            {
-                BCS = entero % 2 + BCS;
-                entero /= 2;
-            }
+            //while (enteroTmp != 0)
+            //{
+            //    BCS = enteroTmp % 2 + BCS;
+            //    enteroTmp /= 2;
+            //}
 
-            BCS = (negativo ? "1" : "0") + BCS;
+            BCS = (negativo ? "1" : "0") + ABS;
 
-            return BCS;
+            return BCS + $" ({BCS.Length} bits)";
         }
 
         public string CalcularEnteroCA1()
@@ -82,21 +81,25 @@ namespace BinCalc.Calculadoras
             CA1 = "";
 
             if (!negativo)
-                CA1 = BSS + "";
+                CA1 = "0" + ABS;
             else
             {
-                for (int i = 0; i < BCS.Length; i++)
-                {
-                    if (BCS[i] == '0')
-                        CA1 += '1';
-                    else
-                        CA1 += '0';
-                }
+                CA1 = "1" + INV;
+                //for (int i = 0; i < BCS.Length; i++)
+                //{
+                //    if (ABS[i] == '0')
+                //        CA1 += '1';
+                //    else
+                //        CA1 += '0';
+                //}
 
-                CA1 = "1" + CA1.Remove(0, 1);
+                //if (CA1[0] == '0')
+                //    CA1 = CA1.Remove(0, 1);
+
+                //CA1 = "1" + CA1.Remove(0, 1);
             }
 
-            return CA1;
+            return CA1 + $" ({CA1.Length} bits)";
         }
 
         public string CalcularEnteroCA2()
@@ -104,11 +107,20 @@ namespace BinCalc.Calculadoras
             CA2 = "";
 
             if (!negativo)
-                CA2 = BSS;
-            else 
+                CA2 = "0" + BSS;
+            else
+            {
                 CA2 = SumarBinarios(CA1, "1");
+                CA2 = CA2.Remove(0, 1);
+                
+                if (CA2.Length > CA1.Length || Math.Pow(2, CA2.Length-1)*-1 == entero)
+                {
+                    CA2 = CA2.Remove(0, 1);
+                }
+                CA2 = "1" + CA2;
+            }
 
-            return CA2;
+            return CA2 + $" ({CA2.Length} bits)";
         }
 
         public string CalcularEnteroEX2()
@@ -116,11 +128,11 @@ namespace BinCalc.Calculadoras
             EX2 = "";
 
             if (!negativo)
-                EX2 = "1" + BSS;
+                EX2 = (CA2[0] == '0' ? '1' : '0') + CA2.Remove(0, 1);
             else
                 EX2 = "0" + CA2.Remove(0, 1);
 
-            return EX2;
+            return EX2 + $" ({EX2.Length} bits)";
         }
 
         public static string SumarBinarios(string a, string b)
@@ -142,8 +154,41 @@ namespace BinCalc.Calculadoras
             return result;
         }
 
+        private void CalcularAbsoluto()
+        {
+            ABS = "";
+            decimal.TryParse(entero.ToString(), out decimal absoluto);
+            int.TryParse(Math.Abs(absoluto).ToString(), out int enteroTmp);
+
+            while (enteroTmp > 0)
+            {
+                ABS = enteroTmp % 2 + ABS;
+                enteroTmp /= 2;
+            }
+        }
+
+        private void InvertirAbsoluto()
+        {
+            INV = "";
+            for (int i = 0; i < ABS.Length; i++)
+            {
+                if (ABS[i] == '0')
+                    INV += '1';
+                else
+                    INV += '0';
+            }
+        }
+
+        private void CalculosIniciales()
+        {
+            CalcularAbsoluto();
+            InvertirAbsoluto();
+        }
+
         public void MostrarResultados()
         {
+            CalculosIniciales();
+            
             FormatearTexto.RenglonesPunteados("BSS", CalcularEnteroBSS());
             FormatearTexto.RenglonesPunteados("BCS", CalcularEnteroBCS());
             FormatearTexto.RenglonesPunteados("CA1", CalcularEnteroCA1());

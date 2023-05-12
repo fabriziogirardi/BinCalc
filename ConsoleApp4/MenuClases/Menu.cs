@@ -8,7 +8,7 @@ namespace BinCalc.MenuClases
 {
     public class Menu
     {
-        private readonly string Separador = new string('#', 100);
+        private readonly string Separador = " " + new string('#', 100);
         private string Encabezado;
         private List<MenuItem> Opciones;
         private Menu? Root;
@@ -54,15 +54,9 @@ namespace BinCalc.MenuClases
 
         private void FullPrint(string error)
         {
-            Console.CursorVisible = false;
-            Console.Clear();
-            Console.WriteLine($"{error}");
+            FullPrint();
             Console.WriteLine();
-            Console.WriteLine(Separador);
-            Console.WriteLine("  " + Encabezado);
-            Console.WriteLine();
-            Print();
-            Console.WriteLine(Separador);
+            Console.WriteLine($"    {error}");
         }
 
         private void PrintExit()
@@ -71,9 +65,9 @@ namespace BinCalc.MenuClases
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine(Separador);
-            Console.WriteLine(" |");
-            Console.WriteLine($" |  Gracias por usar la aplicacion! Presione cualquier tecla para finalizar");
-            Console.WriteLine(" |");
+            Console.WriteLine(" #");
+            Console.WriteLine($" #  Gracias por usar la aplicacion! Presione cualquier tecla para finalizar");
+            Console.WriteLine(" #");
             Console.WriteLine(Separador);
         }
         public void Run()

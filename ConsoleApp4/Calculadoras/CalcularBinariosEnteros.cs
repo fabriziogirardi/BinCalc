@@ -134,7 +134,7 @@ namespace BinCalc.Calculadoras
             FormatearTexto.RenglonesPunteados("CA1", CalcularCA1().ToString());
             FormatearTexto.RenglonesPunteados("CA2", CalcularCA2().ToString());
             FormatearTexto.RenglonesPunteados("EX2", CalcularEX2().ToString());
-            FormatearTexto.RenglonesPunteados("EX2-1", CalcularEX2Menos1().ToString());
+            //FormatearTexto.RenglonesPunteados("EX2-1", CalcularEX2Menos1().ToString());
         }
     }
 }
