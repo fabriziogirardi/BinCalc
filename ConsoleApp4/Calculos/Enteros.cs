@@ -87,9 +87,9 @@ namespace BinCalc.Calculos
 
             Console.WriteLine();
 
-            string? ultimoBinario = calc.GetBinario();
+            string ultimoBinario = calc.GetBinario();
 
-            if (ultimoBinario != null)
+            if (ultimoBinario != "")
             {
                 Console.WriteLine();
                 Console.WriteLine($"Último binario procesado correctamente: {ultimoBinario} ({ultimoBinario.Length} bits)");

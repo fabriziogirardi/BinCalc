@@ -31,8 +31,6 @@ namespace BinCalc
 
         private void mostrarItems(Dictionary<int, Dictionary<string, string>> menu, bool alert = false)
         {
-            int itemIndex = 0;
-
             Console.Write("\r\nSeleccione una de las opciones a continuación:\r\n\r\n");
 
             foreach (KeyValuePair<int, Dictionary<string, string>> item in menu)

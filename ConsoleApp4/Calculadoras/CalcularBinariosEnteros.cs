@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using BinCalc.Formateos;
 
 namespace BinCalc.Calculadoras
@@ -17,7 +13,7 @@ namespace BinCalc.Calculadoras
         /// <summary>
         /// Variable que contiene la cadena de bits como string.
         /// </summary>
-        private string? bits;
+        private string bits = "";
 
         /// <summary>
         /// Clase que genera los cálculos necesarios para saber cual es la correcta <br />
@@ -39,12 +35,12 @@ namespace BinCalc.Calculadoras
             this.bits = bits;
         }
 
-        public void SetBinario(string? bits)
+        public void SetBinario(string bits)
         {
             this.bits = bits;
         }
 
-        public string? GetBinario()
+        public string GetBinario()
         {
             return bits;
         }
@@ -56,7 +52,7 @@ namespace BinCalc.Calculadoras
         /// <returns>int</returns>
         public int CalcularBSS()
         {
-            return CalcularBSS(bits);
+            return CalcularBSS(bits ?? "");
         }
 
         public int CalcularBSS(string bits)

@@ -18,7 +18,7 @@ namespace BinCalc.Formateos
 
 
             Console.ForegroundColor = leftColor;
-            Console.Write($"- {left} ");
+            Console.Write($"  - {left} ");
             Console.ResetColor();
 
             int used = left.Length + right.Length;
