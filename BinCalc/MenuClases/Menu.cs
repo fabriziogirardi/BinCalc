@@ -61,7 +61,7 @@
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write($"{index + 1}");
                 Console.ResetColor();
-                Console.WriteLine($".- {Opciones[index].Titulo}");
+                Console.WriteLine($". {Opciones[index].Titulo}");
                 Console.ResetColor();
             }
 
@@ -171,24 +171,25 @@
         /// <returns>Devuelve un <see cref="byte"/> con el número que seleccionó el usuario</returns>
         private byte SeleccionDelUsuario()
         {
-            byte seleccion = 0;
-
-            // Acción anónima que parsea la selección del usuario
-            // y la guarda en la variable "seleccion"
-            Action parsearSeleccion = () =>
-            {
-                byte.TryParse(Console.ReadKey(true).KeyChar.ToString(), out seleccion);
-            };
-
             // Mientras la selección no sea válida, seguir pidiendo al usuario que ingrese una opción
             // usando la acción anónima definida anteriormente
-            parsearSeleccion();
+            byte seleccion = ParsearSeleccion();
             while (seleccion < 1 || seleccion > Opciones.Count + 1)
             {
                 FullPrint($"La opción {seleccion} no es válida, intente nuevamente");
-                parsearSeleccion();
+                seleccion = ParsearSeleccion();
             }
 
+            return seleccion;
+        }
+
+        /// <summary>
+        /// Parsea la selección del usuario, y devuelve un <see cref="byte"/> con el número seleccionado.
+        /// </summary>
+        /// <returns><see cref="byte"/>, numero de opción seleccionada</returns>
+        private byte ParsearSeleccion()
+        {
+            byte.TryParse(Console.ReadKey(true).KeyChar.ToString(), out byte seleccion);
             return seleccion;
         }
     }

@@ -3,10 +3,21 @@ using System.Text.RegularExpressions;
 
 namespace BinCalc.Calculadoras
 {
+    /// <summary>
+    /// Clase que genera los cálculos necesarios para saber cual es la correcta <br />
+    /// manera de representar un entero en las interpretaciones 
+    /// <b>BSS</b>, <b>BCS</b>, <b>CA1</b>, <b>CA2</b>, <b>EX2</b>, <b>EX2-1</b>
+    /// </summary>
     internal class CalcularEnterosBinarios
     {
-        private int? entero;
+        /// <summary>
+        /// El entero a calcular
+        /// </summary>
+        private int entero = 0;
 
+        /// <summary>
+        /// Las cadenas de bits de los distintos cálculos
+        /// </summary>
         private string ABS = "",
                         INV = "", 
                         BSS = "", 
@@ -15,17 +26,31 @@ namespace BinCalc.Calculadoras
                         CA2 = "", 
                         EX2 = "";
 
+        /// <summary>
+        /// Flags para facilitar el cálculo
+        /// </summary>
         private bool negativo = false, cero = false;
 
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
         public CalcularEnterosBinarios()
         {
         }
 
+        /// <summary>
+        /// Constructor de la clase cuando recibe un entero
+        /// </summary>
+        /// <param name="entero">El entero a procesar</param>
         public CalcularEnterosBinarios(int entero)
         {
-            this.entero = entero;
+            SetEntero(entero);
         }
 
+        /// <summary>
+        /// Setea el entero a procesar cuando la clase ya está instanciada
+        /// </summary>
+        /// <param name="entero"></param>
         public void SetEntero(int entero)
         {
             if (entero == -0)
@@ -36,11 +61,19 @@ namespace BinCalc.Calculadoras
             cero = entero == 0;
         }
 
-        public int? GetEntero()
+        /// <summary>
+        /// Devuelve el entero que está actualmente en estado de cálculo
+        /// </summary>
+        /// <returns>Entero actual</returns>
+        public int GetEntero()
         {
             return entero;
         }
 
+        /// <summary>
+        /// Calcula la cadena de binarios en BSS
+        /// </summary>
+        /// <returns>Cadena </returns>
         public string CalcularEnteroBSS()
         {
             BSS = "";

@@ -14,17 +14,17 @@ namespace BinCalc
         /// </summary>
         static public void Main()
         {
-            List<MenuItem> menuPrincipal = new List<MenuItem>();
-            List<MenuItem> menuEnteros = new List<MenuItem>();
-            List<MenuItem> menuFraccionariosFijos = new List<MenuItem>();
-            List<MenuItem> menuFraccionariosFlotantes = new List<MenuItem>();
+            List<MenuItem> menuPrincipal = new();
+            List<MenuItem> menuEnteros = new();
+            List<MenuItem> menuFraccionariosFijos = new();
+            List<MenuItem> menuFraccionariosFlotantes = new();
 
-            Menu root = new Menu("Menú principal", menuPrincipal, null);
-            Menu menuEnt = new Menu("Menú de enteros", menuEnteros, root);
-            Menu menuFracFij = new Menu("Menú de fraccionarios fijos", menuFraccionariosFijos, root);
-            Menu menuFracFlot = new Menu("Menú de fraccionarios flotantes", menuFraccionariosFlotantes, root);
+            Menu root = new("Menú principal", menuPrincipal, null);
+            Menu menuEnt = new("Menú de enteros", menuEnteros, root);
+            Menu menuFracFij = new("Menú de fraccionarios fijos", menuFraccionariosFijos, root);
+            Menu menuFracFlot = new("Menú de fraccionarios flotantes", menuFraccionariosFlotantes, root);
 
-            Enteros enteros = new Enteros(menuEnt);
+            Enteros enteros = new(menuEnt);
 
             menuPrincipal.Add(new MenuItem("Convertir enteros a binario y viceversa", menuEnt.Run));
             menuPrincipal.Add(new MenuItem("Convertir fraccionarios fijos a binario y viceversa (proximamente)", menuFracFij.Run));

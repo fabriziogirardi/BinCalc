@@ -109,9 +109,7 @@ namespace BinCalc.Calculadoras
         /// </summary>
         private void InvertirBits()
         {
-            bitsInvertidos = "";
-
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             for (int i = 1; i < bits.Length; i++)
             {
@@ -120,15 +118,6 @@ namespace BinCalc.Calculadoras
 
             bitsInvertidos = sb.ToString();
         }
-
-        /// <summary>
-        /// Calcula el valor decimal de la cadena, interpretándola como BSS<br />
-        /// Utiliza el valor almacenado en la propiedad "bits"
-        /// </summary>
-        //public void CalcularBSS()
-        //{
-        //    //BSS = CalcularBSS(bits ?? "");
-        //}
 
         /// <summary>
         /// Calcula el valor decimal de la cadena, interpretándola como BCS
@@ -165,6 +154,9 @@ namespace BinCalc.Calculadoras
                 CA1 = -1 * ENTINV;
         }
 
+        /// <summary>
+        /// Calcula el valor decimal de la cadena, interpretándola como CA2
+        /// </summary>
         public void CalcularCA2()
         {
             if (bits[0] == '0')
@@ -173,16 +165,25 @@ namespace BinCalc.Calculadoras
                 CA2 = CA1 - 1;
         }
 
+        /// <summary>
+        /// Calcula el valor decimal de la cadena, interpretándola como EX2
+        /// </summary>
         public void CalcularEX2()
         {
             EX2 = BSS - Convert.ToInt32(Math.Pow(2, bits.Length - 1));
         }
 
+        /// <summary>
+        /// Calcula el valor decimal de la cadena, interpretándola como EX2-1
+        /// </summary>
         public void CalcularEX2Menos1()
         {
             EX2_1 = EX2 + 1;
         }
 
+        /// <summary>
+        /// Mostrar los resultados usando el método <see cref="FormatearTexto.RenglonesPunteados"/>
+        /// </summary>
         public void MostrarResultados()
         {
             Run();
