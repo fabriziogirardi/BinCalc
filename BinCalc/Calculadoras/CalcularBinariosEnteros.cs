@@ -13,7 +13,12 @@ namespace BinCalc.Calculadoras
         /// <summary>
         /// Variable que contiene la cadena de bits como string.
         /// </summary>
-        private string bits = "";
+        private string bits = "", bitsInvertidos = "";
+
+        /// <summary>
+        /// Variables que contienen los valores de los cálculos de los distintos tipos de interpretación.
+        /// </summary>
+        private int ENT, ENTINV, BSS, BCS, CA1, CA2, EX2, EX2_1;
 
         /// <summary>
         /// Clase que genera los cálculos necesarios para saber cual es la correcta <br />
@@ -35,54 +40,77 @@ namespace BinCalc.Calculadoras
             this.bits = bits;
         }
 
+        /// <summary>
+        /// Método para setear el binario externamente.
+        /// </summary>
+        /// <param name="bits">La cadena binaria a procesar</param>
         public void SetBinario(string bits)
         {
             this.bits = bits;
         }
 
+        /// <summary>
+        /// Método para obtener desde el exterior
+        /// la cadena binaria actualmente almacenada en la clase.
+        /// </summary>
+        /// <returns><see cref="string"/>, la cadena binaria actual.</returns>
         public string GetBinario()
         {
             return bits;
         }
 
         /// <summary>
-        /// Calcula el valor decimal de la cadena, interpretándola como BSS<br />
-        /// Utiliza el valor almacenado en la propiedad "bits"
+        /// Ejecuta las acciones de cálculos y genera los resultados.
         /// </summary>
-        /// <returns>int</returns>
-        public int CalcularBSS()
+        public void Run()
         {
-            return CalcularBSS(bits ?? "");
+            CalcularEntero();
+            InvertirBits();
+            CalcularEnteroInv();
+            CalcularBSS();
+            CalcularBCS();
+            CalcularCA1();
+            CalcularCA2();
+            CalcularEX2();
+            CalcularEX2Menos1();
         }
 
-        public int CalcularBSS(string bits)
+        /// <summary>
+        /// Calcula el valor decimal de la cadena de bits normal.
+        /// </summary>
+        private void CalcularEntero()
         {
-            int result = 0;
+            ENT = 0;
             int exp = 0;
-
             for (int i = bits.Length - 1; i >= 0; i--)
             {
-                result += Convert.ToInt32(char.GetNumericValue(bits[i]) * Math.Pow(2, exp));
+                ENT += Convert.ToInt32(char.GetNumericValue(bits[i]) * Math.Pow(2, exp));
                 exp++;
             }
-
-            return result;
         }
 
-        public int CalcularBCS()
+        /// <summary>
+        /// Calcula el valor decimal de la cadena de bits invertidos.
+        /// </summary>
+        private void CalcularEnteroInv()
         {
-            int result = CalcularBSS(bits.Remove(0, 1));
-
-            if (bits[0] == '1')
+            ENTINV = 0;
+            int exp = 0;
+            for (int i = bitsInvertidos.Length - 1; i >= 0; i--)
             {
-                result *= -1;
+                ENTINV += Convert.ToInt32(char.GetNumericValue(bitsInvertidos[i]) * Math.Pow(2, exp));
+                exp++;
             }
-
-            return result;
         }
 
-        private string InvertirBits()
+        /// <summary>
+        /// Invierte la cadena de bits y la almacena en la propiedad "bitsInvertidos"
+        /// convirtiendo los ceros en unos y viceversa.
+        /// </summary>
+        private void InvertirBits()
         {
+            bitsInvertidos = "";
+
             StringBuilder sb = new StringBuilder();
 
             for (int i = 1; i < bits.Length; i++)
@@ -90,47 +118,79 @@ namespace BinCalc.Calculadoras
                 sb.Append(bits[i] == '0' ? '1' : '0');
             }
 
-            return sb.ToString();
+            bitsInvertidos = sb.ToString();
         }
 
-        public int CalcularCA1()
+        /// <summary>
+        /// Calcula el valor decimal de la cadena, interpretándola como BSS<br />
+        /// Utiliza el valor almacenado en la propiedad "bits"
+        /// </summary>
+        //public void CalcularBSS()
+        //{
+        //    //BSS = CalcularBSS(bits ?? "");
+        //}
+
+        /// <summary>
+        /// Calcula el valor decimal de la cadena, interpretándola como BCS
+        /// </summary>
+        public void CalcularBSS()
+        {
+            BSS = ENT;
+        }
+
+        /// <summary>
+        /// Calcula el valor decimal de la cadena, interpretándola como BCS
+        /// </summary>
+        public void CalcularBCS()
+        {
+            int result = BSS;
+
+            if (bits[0] == '1')
+            {
+                result -= Convert.ToInt32(Math.Pow(2, bits.Length - 1));
+                result *= -1;
+            }
+
+            BCS = result;
+        }
+
+        /// <summary>
+        /// Calcula el valor decimal de la cadena, interpretándola como CA1
+        /// </summary>
+        public void CalcularCA1()
         {
             if (bits[0] == '0')
-                return CalcularBSS();
-
-            string newbits = InvertirBits();
-
-            return -1 * CalcularBSS(newbits);
+                CA1 = BSS;
+            else
+                CA1 = -1 * ENTINV;
         }
 
-        public int CalcularCA2()
+        public void CalcularCA2()
         {
             if (bits[0] == '0')
-                return CalcularBSS();
-
-            string newbits = InvertirBits();
-
-            return CalcularCA1() - 1;
+                CA2 = BSS;
+            else
+                CA2 = CA1 - 1;
         }
 
-        public int CalcularEX2()
+        public void CalcularEX2()
         {
-            return CalcularBSS() - Convert.ToInt32(Math.Pow(2, bits.Length - 1));
+            EX2 = BSS - Convert.ToInt32(Math.Pow(2, bits.Length - 1));
         }
 
-        public int CalcularEX2Menos1()
+        public void CalcularEX2Menos1()
         {
-            return CalcularEX2() + 1;
+            EX2_1 = EX2 + 1;
         }
 
         public void MostrarResultados()
         {
-            FormatearTexto.RenglonesPunteados("BSS", CalcularBSS().ToString());
-            FormatearTexto.RenglonesPunteados("BCS", CalcularBCS().ToString());
-            FormatearTexto.RenglonesPunteados("CA1", CalcularCA1().ToString());
-            FormatearTexto.RenglonesPunteados("CA2", CalcularCA2().ToString());
-            FormatearTexto.RenglonesPunteados("EX2", CalcularEX2().ToString());
-            //FormatearTexto.RenglonesPunteados("EX2-1", CalcularEX2Menos1().ToString());
+            Run();
+            FormatearTexto.RenglonesPunteados("BSS", BSS.ToString());
+            FormatearTexto.RenglonesPunteados("BCS", BCS.ToString());
+            FormatearTexto.RenglonesPunteados("CA1", CA1.ToString());
+            FormatearTexto.RenglonesPunteados("CA2", CA2.ToString());
+            FormatearTexto.RenglonesPunteados("EX2", EX2.ToString());
         }
     }
 }

@@ -1,11 +1,5 @@
 ﻿using BinCalc.Formateos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Transactions;
 
 namespace BinCalc.Calculadoras
 {
@@ -247,7 +241,7 @@ namespace BinCalc.Calculadoras
             int index = 0;
 
             string pattern = @"^[01]+$";
-            Regex r = new Regex(pattern);
+            Regex r = new(pattern);
 
             Match m = r.Match(numero);
 
